@@ -23,7 +23,7 @@ class HomeController {
   Future<dynamic> getProductById(String id) async {
     try {
       final response =
-          await _dio.get('/productById', queryParameters: {'id': id});
+          await _dio.get('/productById', queryParameters: {'userid': id});
       return response.data;
     } catch (e) {
       print('Error fetching product: $e');
@@ -45,7 +45,7 @@ class HomeController {
     try {
       // Assuming API expects id in query or body. Sending in both to be safe or just body if it's PATCH
       data['id'] = id;
-      await _dio.patch('/product', data: data, queryParameters: {'id': id});
+      await _dio.patch('/product', data: data, queryParameters: {'userid': id});
       return true;
     } catch (e) {
       print('Error updating product: $e');
@@ -55,9 +55,7 @@ class HomeController {
 
   Future<bool> deleteProduct(dynamic id, dynamic userid) async {
     try {
-      await _dio.delete('/product',
-          queryParameters: {'id': id, 'userid': userid},
-          data: {'id': id, 'userid': userid});
+      await _dio.delete('/product', queryParameters: {'userid': userid});
       return true;
     } catch (e) {
       print('Error deleting product: $e');
